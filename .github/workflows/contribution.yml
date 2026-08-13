@@ -22,26 +22,34 @@ jobs:
       - name: Check out profile repository
         uses: actions/checkout@v4
 
-      - name: Fetch public contribution calendar
-        env:
-          GH_TOKEN: ${{ github.token }}
-          PROFILE_LOGIN: nabilkhan-01
-        run: |
-          gh api graphql -f query='query($login: String!) {
-            user(login: $login) {
-              contributionsCollection {
-                contributionCalendar {
-                  totalContributions
-                  weeks {
-                    contributionDays {
-                      date
-                      contributionCount
-                    }
-                  }
+- name: Fetch contribution calendar
+  env:
+    GH_TOKEN: ${{ github.token }}
+    PROFILE_LOGIN: nabilkhan-01
+  run: |
+    FROM="$(date -u -d '1 year ago' '+%Y-%m-%dT%H:%M:%SZ')"
+    TO="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+
+    gh api graphql \
+      -f query='query($login: String!, $from: DateTime!, $to: DateTime!) {
+        user(login: $login) {
+          contributionsCollection(from: $from, to: $to) {
+            contributionCalendar {
+              totalContributions
+              weeks {
+                contributionDays {
+                  date
+                  contributionCount
                 }
               }
             }
-          }' -F login="$PROFILE_LOGIN" > /tmp/contributions.json
+          }
+        }
+      }' \
+      -F login="$PROFILE_LOGIN" \
+      -F from="$FROM" \
+      -F to="$TO" \
+      > /tmp/contributions.json
 
       - name: Render contribution SVG
         run: node assets/cat/generate-contribution-svg.mjs /tmp/contributions.json assets/contributions.svg

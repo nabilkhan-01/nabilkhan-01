@@ -53,9 +53,8 @@ $ nabil --project
     status    : completed
     demo      : ready
     data      : system-generated / no real student or faculty data
-
-    → [View repository](https://github.com/nabilkhan-01/MentorConnect)
 ```
+    → [View repository](https://github.com/nabilkhan-01/MentorConnect)
 ---
 
 ## CONTRIBUTION ACTIVITY
