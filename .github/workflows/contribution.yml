@@ -1,0 +1,59 @@
+name: Update contribution visual
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/contribution.yml"
+      - "assets/cat/**"
+      - "README.md"
+  schedule:
+    # Refresh after GitHub has had time to process the previous day's activity.
+    - cron: "20 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out profile repository
+        uses: actions/checkout@v4
+
+      - name: Fetch public contribution calendar
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PROFILE_LOGIN: nabilkhan-01
+        run: |
+          gh api graphql -f query='query($login: String!) {
+            user(login: $login) {
+              contributionsCollection {
+                contributionCalendar {
+                  totalContributions
+                  weeks {
+                    contributionDays {
+                      date
+                      contributionCount
+                    }
+                  }
+                }
+              }
+            }
+          }' -F login="$PROFILE_LOGIN" > /tmp/contributions.json
+
+      - name: Render contribution SVG
+        run: node assets/cat/generate-contribution-svg.mjs /tmp/contributions.json assets/contributions.svg
+
+      - name: Commit updated visual when it changed
+        run: |
+          if git diff --quiet -- assets/contributions.svg; then
+            echo "Contribution visual is already current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/contributions.svg
+          git commit -m "chore: update contribution visual"
+          git push
