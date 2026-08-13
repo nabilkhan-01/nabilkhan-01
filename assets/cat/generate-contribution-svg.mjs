@@ -40,7 +40,7 @@ const cat = `
     <animateTransform
       attributeName="transform"
       type="translate"
-      values="-42 ${dividerY - 2}; ${width + 8} ${dividerY - 2}"
+      values="-42 ${dividerY - 7}; ${width + 8} ${dividerY - 7}"
       dur="20s"
       repeatCount="indefinite"
     />
@@ -61,14 +61,14 @@ const cat = `
         stroke="#38bdf8"
         stroke-width="3"
         stroke-linecap="square"
-        d="M34 17h5v-5h4"
+        d="M9 24H5v-6H1"
       >
         <animate
           attributeName="d"
           values="
-            M34 17h5v-5h4;
-            M34 17h5v-8h4;
-            M34 17h5v-5h4
+            M9 24H5v-6H1;
+            M9 24H5v-9H1;
+            M9 24H5v-6H1;
           "
           dur="0.8s"
           repeatCount="indefinite"
@@ -97,23 +97,23 @@ const cat = `
       <rect x="25" y="17" width="3" height="3" fill="#082f49"/>
 
       <!-- nose -->
-      <rect x="21" y="20" width="3" height="2" fill="#a78bfa"/>
+      <rect x="24" y="20" width="3" height="2" fill="#a78bfa"/>
 
       <!-- legs -->
       <g fill="#0284c7">
-        <rect x="11" y="28" width="6" height="4">
+        <rect x="10" y="27" width="7" height="5">
           <animate
             attributeName="y"
-            values="28;30;28"
+            values="27;29;27"
             dur="0.8s"
             repeatCount="indefinite"
           />
         </rect>
 
-        <rect x="27" y="28" width="6" height="4">
+        <rect x="27" y="27" width="7" height="5">
           <animate
             attributeName="y"
-            values="30;28;30"
+            values="29;27;29"
             dur="0.8s"
             repeatCount="indefinite"
           />

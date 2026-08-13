@@ -37,8 +37,6 @@ TOOLS
 ## PROJECT
 
 ```text
-$ nabil --project
-
 01  MentorConnect
 
     Centralized mentor–mentee management system
@@ -54,7 +52,7 @@ $ nabil --project
     demo      : ready
     data      : system-generated / no real student or faculty data
 ```
-    → [View repository](https://github.com/nabilkhan-01/MentorConnect)
+→ [View repository](https://github.com/nabilkhan-01/MentorConnect)
 ---
 
 ## CONTRIBUTION ACTIVITY
