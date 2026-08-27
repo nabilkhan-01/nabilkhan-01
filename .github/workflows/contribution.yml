@@ -10,7 +10,7 @@ on:
       - "README.md"
   schedule:
     # Refresh after GitHub has had time to process the previous day's activity.
-    - cron: "20 2 * * *"
+    - cron: "0 */3 * * *"
   workflow_dispatch:
 
 permissions:
