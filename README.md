@@ -24,7 +24,7 @@ const nabilkhan_01 = {
   <img src="./assets/projects-terminal.svg" width="100%" alt="Featured projects"/>
 </p>
 
-→ [**MentorConnect**](https://github.com/nabilkhan-01/MentorConnect) · Centralized mentor–mentee management system
+→ [**MentorConnect**](https://github.com/nabilkhan-01/MentorConnect) · Centralized mentor–mentee management system<br/>
 → [**BriefLook**](https://github.com/nabilkhan-01/BriefLook) · Quick-glance information tool
 
 <p align="center">
@@ -57,8 +57,8 @@ const nabilkhan_01 = {
 
 ## 🌐 Connect
 
-**LinkedIn** → [nabil-khan01](https://www.linkedin.com/in/nabil-khan01/)
-**Website** → [nabilkhan.tech](https://nabilkhan.tech)
+**LinkedIn** → [nabil-khan01](https://www.linkedin.com/in/nabil-khan01/)<br/>
+**Website** → [nabilkhan.tech](https://nabilkhan.tech)<br/>
 **Email** → [nabilkhan1708@gmail.com](mailto:nabilkhan1708@gmail.com)
 
 ---
