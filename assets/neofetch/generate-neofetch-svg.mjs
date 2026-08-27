@@ -1,0 +1,111 @@
+import { readFile, writeFile } from "node:fs/promises";
+
+const [contributionsPath, userStatsPath, outputPath] = process.argv.slice(2);
+if (!contributionsPath || !userStatsPath || !outputPath) {
+  throw new Error(
+    "Usage: node generate-neofetch-svg.mjs contributions.json user-stats.json output.svg",
+  );
+}
+
+const contribData = JSON.parse(await readFile(contributionsPath, "utf8"));
+const statsData = JSON.parse(await readFile(userStatsPath, "utf8"));
+
+const calendar =
+  contribData.data?.user?.contributionsCollection?.contributionCalendar;
+const totalContributions = calendar?.totalContributions ?? 0;
+
+const user = statsData.data?.user;
+const name = user?.name ?? "Nabil Khan";
+const login = "nabilkhan-01";
+const followers = user?.followers?.totalCount ?? 0;
+const repos = user?.repositories?.nodes ?? [];
+const repoCount = user?.repositories?.totalCount ?? 0;
+
+const totalStars = repos.reduce(
+  (sum, r) => sum + (r.stargazerCount || 0),
+  0,
+);
+
+const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 260" width="900" height="260">
+  <defs>
+    <linearGradient id="nbg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#161b22"/>
+      <stop offset="100%" stop-color="#0d1117"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Terminal body -->
+  <rect width="900" height="260" rx="10" fill="url(#nbg)" stroke="#30363d" stroke-width="1"/>
+
+  <!-- Title bar -->
+  <rect width="900" height="36" rx="10" fill="#1c2129"/>
+  <rect y="26" width="900" height="10" fill="#1c2129"/>
+
+  <!-- Traffic lights -->
+  <circle cx="24" cy="18" r="6" fill="#ff5f57"/>
+  <circle cx="44" cy="18" r="6" fill="#febc2e"/>
+  <circle cx="64" cy="18" r="6" fill="#28c840"/>
+
+  <!-- Title text -->
+  <text x="450" y="22" text-anchor="middle"
+        font-family="'SF Mono','Courier New',Consolas,monospace"
+        font-size="12" fill="#8b949e">nabilkhan-01@github: ~$ neofetch</text>
+
+  <!-- Separator -->
+  <line x1="0" y1="36" x2="900" y2="36" stroke="#30363d" stroke-width="1"/>
+
+  <!-- ASCII art terminal face -->
+  <g font-family="'SF Mono','Courier New',Consolas,monospace" font-size="14" fill="#22d3ee">
+    <text x="80" y="90">  ┌──────────┐</text>
+    <text x="80" y="110">  │  ■   ■   │</text>
+    <text x="80" y="130">  │ · github │</text>
+    <text x="80" y="150">  │  &gt;  _    │</text>
+    <text x="80" y="170">  └──────────┘</text>
+  </g>
+
+  <!-- Neofetch stats -->
+  <g font-family="'SF Mono','Courier New',Consolas,monospace" font-size="14">
+    <text x="350" y="78">
+      <tspan fill="#22d3ee" font-weight="bold">${login}</tspan>
+      <tspan fill="#8b949e"> @github</tspan>
+    </text>
+
+    <text x="350" y="96" fill="#30363d">────────────────────────────────</text>
+
+    <text x="350" y="120">
+      <tspan fill="#22d3ee" font-weight="bold">Name        </tspan>
+      <tspan fill="#e6edf3">${name}</tspan>
+    </text>
+    <text x="350" y="143">
+      <tspan fill="#22d3ee" font-weight="bold">Stars       </tspan>
+      <tspan fill="#e6edf3">${totalStars}</tspan>
+    </text>
+    <text x="350" y="166">
+      <tspan fill="#22d3ee" font-weight="bold">Repos       </tspan>
+      <tspan fill="#e6edf3">${repoCount}</tspan>
+    </text>
+    <text x="350" y="189">
+      <tspan fill="#22d3ee" font-weight="bold">Followers   </tspan>
+      <tspan fill="#e6edf3">${followers}</tspan>
+    </text>
+    <text x="350" y="212">
+      <tspan fill="#22d3ee" font-weight="bold">Activity    </tspan>
+      <tspan fill="#e6edf3">${totalContributions} contributions</tspan>
+    </text>
+
+    <!-- Color palette -->
+    <g transform="translate(350, 230)">
+      <rect x="0" y="0" width="18" height="12" rx="1" fill="#0d1117"/>
+      <rect x="22" y="0" width="18" height="12" rx="1" fill="#161b22"/>
+      <rect x="44" y="0" width="18" height="12" rx="1" fill="#0284c7"/>
+      <rect x="66" y="0" width="18" height="12" rx="1" fill="#22d3ee"/>
+      <rect x="88" y="0" width="18" height="12" rx="1" fill="#8b5cf6"/>
+      <rect x="110" y="0" width="18" height="12" rx="1" fill="#a855f7"/>
+      <rect x="132" y="0" width="18" height="12" rx="1" fill="#ec4899"/>
+      <rect x="154" y="0" width="18" height="12" rx="1" fill="#06b6d4"/>
+    </g>
+  </g>
+</svg>`;
+
+await writeFile(outputPath, svg);
+console.log("Neofetch SVG written to", outputPath);

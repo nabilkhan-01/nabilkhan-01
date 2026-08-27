@@ -6,6 +6,7 @@ on:
     paths:
       - ".github/workflows/contribution.yml"
       - "assets/cat/**"
+      - "assets/neofetch/**"
       - "README.md"
   schedule:
     # Refresh after GitHub has had time to process the previous day's activity.
@@ -51,17 +52,42 @@ jobs:
             -F to="$TO" \
             > /tmp/contributions.json
 
+      - name: Fetch user stats
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PROFILE_LOGIN: nabilkhan-01
+        run: |
+          gh api graphql \
+            -f query='query($login: String!) {
+              user(login: $login) {
+                name
+                followers { totalCount }
+                repositories(ownerAffiliations: OWNER, first: 100) {
+                  totalCount
+                  nodes {
+                    stargazerCount
+                    primaryLanguage { name }
+                  }
+                }
+              }
+            }' \
+            -F login="$PROFILE_LOGIN" \
+            > /tmp/user-stats.json
+
       - name: Render contribution SVG
         run: node assets/cat/generate-contribution-svg.mjs /tmp/contributions.json assets/contributions.svg
 
-      - name: Commit updated visual when it changed
+      - name: Render neofetch SVG
+        run: node assets/neofetch/generate-neofetch-svg.mjs /tmp/contributions.json /tmp/user-stats.json assets/neofetch.svg
+
+      - name: Commit updated visuals when changed
         run: |
-          if git diff --quiet -- assets/contributions.svg; then
-            echo "Contribution visual is already current."
+          if git diff --quiet -- assets/contributions.svg assets/neofetch.svg; then
+            echo "Visuals are already current."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/contributions.svg
-          git commit -m "chore: update contribution visual"
+          git add assets/contributions.svg assets/neofetch.svg
+          git commit -m "chore: update profile visuals"
           git push
