@@ -4,7 +4,7 @@
 
 ---
 
-## ⚡ whoami
+## ⚡ who am i
 
 ```typescript
 const nabilkhan_01 = {
