@@ -46,7 +46,7 @@
 
     <text x="350" y="120">
       <tspan fill="#22d3ee" font-weight="bold">Name        </tspan>
-      <tspan fill="#e6edf3">Nabil Khan</tspan>
+      <tspan fill="#e6edf3">Nabil Ahmad Khan</tspan>
     </text>
     <text x="350" y="143">
       <tspan fill="#22d3ee" font-weight="bold">Stars       </tspan>
@@ -54,7 +54,7 @@
     </text>
     <text x="350" y="166">
       <tspan fill="#22d3ee" font-weight="bold">Repos       </tspan>
-      <tspan fill="#e6edf3">6</tspan>
+      <tspan fill="#e6edf3">8</tspan>
     </text>
     <text x="350" y="189">
       <tspan fill="#22d3ee" font-weight="bold">Followers   </tspan>
@@ -62,7 +62,7 @@
     </text>
     <text x="350" y="212">
       <tspan fill="#22d3ee" font-weight="bold">Activity    </tspan>
-      <tspan fill="#e6edf3">170 contributions</tspan>
+      <tspan fill="#e6edf3">172 contributions</tspan>
     </text>
 
     <!-- Color palette -->
